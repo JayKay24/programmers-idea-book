@@ -7,7 +7,7 @@ export enum Operators {
 
 export class Fraction {
   private isFraction = (operand: string) => /\d+\/\d+/.test(operand);
-  private additionReducer = (accum: number, num: number) => accum + num;
+  private readonly decimalPlaces = 2;
 
   constructor(private operands: string[]) {
     if (!this.operands.every(this.isFraction)) {
@@ -25,8 +25,10 @@ export class Fraction {
         console.log(this.subtract());
         break;
       case Operators.Multiplication:
+        console.log(this.multiply());
         break;
       case Operators.Division:
+        console.log(this.divide());
         break;
       default:
         console.log('Please provide a valid operator e.g [*, /, +, -]');
@@ -34,54 +36,62 @@ export class Fraction {
     }
   }
 
-  add(): string {
-    const numerators = this.operands.map((operand) => operand.split('/')[0]);
-    const denominators = this.operands.map((operand) => operand.split('/')[1]);
+  add() {
+    let result = 0;
 
-    const LCM = this.getLCM(denominators);
-
-    const summation: number[] = [];
-
-    for (let i = 0; i < numerators.length; i++) {
-      let denom = parseInt(denominators[i]);
-      let numerator = parseInt(numerators[i]);
-      summation.push((LCM / denom) * numerator);
+    for (const num of this.operands) {
+      const [numerator, denominator] = num.split('/');
+      result += parseFloat(numerator) / parseFloat(denominator);
     }
 
-    const numerator = summation.reduce(this.additionReducer, 0);
+    result = this.roundTo(result, this.decimalPlaces);
 
-    return `${numerator}/${LCM}`;
+    return result;
   }
 
-  subtract(): string {
-    const numerators = this.operands.map((operand) => operand.split('/')[0]);
-    const denominators = this.operands.map((operand) => operand.split('/')[1]);
+  subtract() {
+    let [num, denom] = this.operands[0].split('/');
+    let result = parseFloat(num) / parseFloat(denom);
 
-    const LCM = this.getLCM(denominators);
-
-    const summation: number[] = [];
-
-    for (let i = 0; i < numerators.length; i++) {
-      let denom = parseInt(denominators[i]);
-      let numerator = parseInt(numerators[i]);
-      summation.push((LCM / denom) * numerator);
+    for (const num of this.operands.slice(1)) {
+      const [numerator, denominator] = num.split('/');
+      result -= parseFloat(numerator) / parseFloat(denominator);
     }
 
-    const numerator = summation.reduce(
-      (accum: number, num: number) => accum - num,
-      0
-    );
+    result = this.roundTo(result, this.decimalPlaces);
 
-    return `${numerator}/${LCM}`;
+    return result;
   }
 
-  // multiply(): string {}
+  multiply() {
+    let result = 1;
 
-  // divide(): string {}
+    for (const num of this.operands) {
+      const [numerator, denominator] = num.split('/');
+      result *= parseFloat(numerator) / parseFloat(denominator);
+    }
 
-  private getLCM(denominators: string[]): number {
-    return denominators
-      .map((num) => parseInt(num))
-      .reduce(this.additionReducer, 1);
+    result = this.roundTo(result, this.decimalPlaces);
+
+    return result;
+  }
+
+  divide() {
+    let [num, denom] = this.operands[0].split('/');
+    let result = parseFloat(num) / parseFloat(denom);
+
+    for (const num of this.operands.slice(1)) {
+      const [numerator, denominator] = num.split('/');
+      result /= parseFloat(numerator) / parseFloat(denominator);
+    }
+
+    result = this.roundTo(result, this.decimalPlaces);
+
+    return result;
+  }
+
+  private roundTo(value: number, places: number) {
+    let power = Math.pow(10, places);
+    return Math.round(value * power) / power;
   }
 }
