@@ -5,26 +5,23 @@ import { Fraction } from './fraction';
 const operators = ['+', '-', '*', '/'];
 
 const operationIdx = readLineSync.keyInSelect(operators, 'Which operation? ');
-console.log(operators);
 
 if (operationIdx < 0) {
   console.log("You didn't provide an operator.");
   process.exit(0);
 }
 
-let operands: string[] = [];
+const operands: string[] = [];
 
-console.log();
+let input: string;
 
-while (true) {
+do {
   console.log('Enter number. To quit, press Enter.');
-  let input = readLineSync.prompt();
+  input = readLineSync.prompt();
   if (!input) break;
 
   operands.push(input);
-}
-
-console.log(operands);
+} while (input);
 
 const fraction = new Fraction(operands);
 fraction.operate(operators[operationIdx]);
