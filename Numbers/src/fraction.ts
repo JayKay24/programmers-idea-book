@@ -6,15 +6,9 @@ export enum Operators {
 }
 
 export class Fraction {
-  private isFraction = (operand: string) => /\d+\/\d+/.test(operand);
   private readonly decimalPlaces = 2;
 
-  constructor(private operands: string[]) {
-    if (!this.operands.every(this.isFraction)) {
-      console.log('Please enter fractions only');
-      process.exit(0);
-    }
-  }
+  constructor(private operands: string[]) {}
 
   operate(operator: string): void {
     switch (operator) {
