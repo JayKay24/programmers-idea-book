@@ -16,7 +16,7 @@ export class Fraction {
     }
   }
 
-  operate(operator: string) {
+  operate(operator: string): void {
     switch (operator) {
       case Operators.Addition:
         console.log(this.add());
@@ -36,7 +36,7 @@ export class Fraction {
     }
   }
 
-  add() {
+  private add(): number {
     let result = 0;
 
     for (const num of this.operands) {
@@ -49,8 +49,8 @@ export class Fraction {
     return result;
   }
 
-  subtract() {
-    let [num, denom] = this.operands[0].split('/');
+  private subtract(): number {
+    const [num, denom] = this.operands[0].split('/');
     let result = parseFloat(num) / parseFloat(denom);
 
     for (const num of this.operands.slice(1)) {
@@ -63,7 +63,7 @@ export class Fraction {
     return result;
   }
 
-  multiply() {
+  private multiply(): number {
     let result = 1;
 
     for (const num of this.operands) {
@@ -76,8 +76,8 @@ export class Fraction {
     return result;
   }
 
-  divide() {
-    let [num, denom] = this.operands[0].split('/');
+  private divide(): number {
+    const [num, denom] = this.operands[0].split('/');
     let result = parseFloat(num) / parseFloat(denom);
 
     for (const num of this.operands.slice(1)) {
@@ -91,7 +91,7 @@ export class Fraction {
   }
 
   private roundTo(value: number, places: number) {
-    let power = Math.pow(10, places);
+    const power = Math.pow(10, places);
     return Math.round(value * power) / power;
   }
 }
