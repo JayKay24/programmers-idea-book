@@ -16,9 +16,9 @@ const operands: string[] = [];
 let input: string;
 
 do {
-  console.log('Enter number. To quit, press Enter.');
+  console.log('Enter fraction. To quit, press q and enter.');
   input = readLineSync.prompt();
-  if (!input) break;
+  if (input in ['q', 'Q']) break;
 
   operands.push(input);
 } while (input);
