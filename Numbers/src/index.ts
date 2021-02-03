@@ -18,10 +18,11 @@ const isFraction = (operand: string) => /\d+\/\d+/.test(operand);
 let input: string;
 
 do {
-  console.log('Enter fraction. To quit, press q and enter.');
+  console.log('Enter fraction. To finish, press q and enter.');
   input = readLineSync.prompt();
-  if (input in ['q', 'Q']) break;
-  if (!isFraction(input)) {
+  if (['q', 'Q'].includes(input)) {
+    break;
+  } else if (!isFraction(input)) {
     console.log('Please enter fractions only');
   } else {
     operands.push(input);
